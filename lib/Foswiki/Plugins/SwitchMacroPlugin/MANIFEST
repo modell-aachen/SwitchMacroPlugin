@@ -1,0 +1,9 @@
+!noci
+data/System/SwitchMacroPlugin.txt 0644 Documentation page
+data/System/VarSWITCHTEXT.txt 0644 Tag documentation
+data/System/VarSWITCHTMPL.txt 0644 Tag documentation
+data/Sandbox/PluginTestSwitchMacroPlugin.txt 0644 Examples
+lib/Foswiki/Plugins/SwitchMacroPlugin.pm 0444 Perl module
+lib/Foswiki/Plugins/SwitchMacroPlugin/Config.spec 0444 Configuration
+test/unit/SwitchMacroPlugin/SwitchMacroPluginTests.pm 0644 Tests
+test/unit/SwitchMacroPlugin/SwitchMacroPluginSuite.pm 0644 Tests
