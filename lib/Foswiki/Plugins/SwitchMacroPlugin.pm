@@ -17,7 +17,7 @@ use Foswiki::Plugins ();    # For the API version
 
 our $VERSION          = '$Rev: 7808 (2010-06-15) $';
 
-our $RELEASE = '1.0.0';
+our $RELEASE = '1.0.1';
 
 # Short description of this plugin
 our $SHORTDESCRIPTION = 'A macro for switch/case-like behaviour.';
