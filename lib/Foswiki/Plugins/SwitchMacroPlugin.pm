@@ -15,7 +15,7 @@ use warnings;
 use Foswiki::Func    ();    # The plugins API
 use Foswiki::Plugins ();    # For the API version
 
-use version; our $VERSION = version->declare("v1.0.0");
+our $VERSION          = '$Rev: 7808 (2010-06-15) $';
 
 our $RELEASE = '1.0.0';
 
