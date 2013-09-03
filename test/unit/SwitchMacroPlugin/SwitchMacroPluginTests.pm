@@ -29,11 +29,45 @@ sub set_up {
 %TMPL:DEF{"SwitchTest_en"}%Page%TMPL:END%
 %TMPL:DEF{"SwitchTest_de"}%Seite%TMPL:END%
 %TMPL:DEF{"SwitchTest_default"}%Language not found%TMPL:END%
+
+%TMPL:DEF{"DetailsCarForm"}%The car has %QUERY{"'%vehicletopic%'/Doors"}% doors.%TMPL:END%
+%TMPL:DEF{"DetailsPlaneForm"}%The plane has %QUERY{"'%vehicletopic%'/Engines"}% engines.%TMPL:END%
+%TMPL:DEF{"DetailsUnknown"}%The UFO is unknown to science.%TMPL:END%
 TEMPLATE
 
-    Foswiki::Func::saveTopic( $this->{test_web}, 'SwitchTest', undef, <<TOPIC );
+    Foswiki::Func::saveTopic( $this->{test_web}, 'SwitchTest', undef, <<'TOPIC' );
    * Set VIEW_TEMPLATE = SwitchTestView
 %TMPL:P{SwitchTest_en}%
+
+%SEARCH{"name~'*Vehicle'" type="query" format="   * $topic: $percentSWITCHTMPL{\"$formname\" prefix=\"Details\" defaultTo=\"Unknown\" tmplargs=\"vehicletopic=\\"$web.$topic\\"\"}$percent$n"}%
+TOPIC
+
+    Foswiki::Func::saveTopic( $this->{test_web}, 'CarForm', undef, <<'TOPIC' );
+| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| TopicTitle | text | 50 | | | |
+| Doors | text | 2 | | | |
+TOPIC
+
+    Foswiki::Func::saveTopic( $this->{test_web}, 'PlaneForm', undef, <<'TOPIC' );
+| *Name* | *Type* | *Size* | *Values* | *Tooltip message* | *Attributes* |
+| TopicTitle | text | 50 | | | |
+| Engines | text | 2 | | | |
+TOPIC
+
+    Foswiki::Func::saveTopic( $this->{test_web}, 'MyWheeledVehicle', undef, <<'TOPIC');
+This is my car.
+
+%META:FORM{name="CarForm"}%
+%META:FIELD{name="Doors" attributes="" title="Doors" value="2"}%
+TOPIC
+    Foswiki::Func::saveTopic( $this->{test_web}, 'MyWingedVehicle', undef, <<'TOPIC');
+This is my plane.
+
+%META:FORM{name="PlaneForm"}%
+%META:FIELD{name="Engines" attributes="" title="Engines" value="3"}%
+TOPIC
+    Foswiki::Func::saveTopic( $this->{test_web}, 'MyMagicalVehicle', undef, <<'TOPIC');
+This is my broom.
 TOPIC
 
     ($topicObject) = Foswiki::Func::readTopic( $this->{test_web}, 'SwitchTest' );
@@ -159,6 +193,15 @@ sub test_SwitchTemplateContentLanguage {
     $this->assert_equals("Page", _pageCL('en'));
     $this->assert_equals("Seite", _pageCL('de'));
     $this->assert_equals("Language not found", _pageCL('xy'));
+}
+
+sub test_SwitchTemplateParameters {
+    my $this = shift;
+
+    my $vehicle = 'MyWheeledVehicle';
+    my $macro = '%SWITCHTMPL{"%QUERY{"\''.$vehicle.'\'/form.name"}%" prefix="Details" tmplargs="vehicletopic=\"'.$vehicle.'\"" defaultTo="Unknown"}%';
+    my $result = Foswiki::Func::expandCommonVariables( $macro );
+    $this->assert_equals("The car has 2 doors.", $result);
 }
 
 1;

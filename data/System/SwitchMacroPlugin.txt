@@ -37,6 +37,7 @@ Parameters:
    * =_DEFAULT= parameter: The value you switch on, when omitted =%<nop>CONTENT_LANGUAGE%= will be used. This will be the latter part of the _template_ you are going to print.
    * prefix: This will be the first part of the _template_ you are going to print.
    * =defaultTo=: The fallback-suffix to be used when value was not found, or left empty (ie. when %%NOP%TMPL:P{...}% is ''), defaults to =default=.
+   * =tmplargs=: Will be passed to the template on expansion (eg. =tmplargs="web=\"%%NOP%WEB%\""=)
 So in effect you will do a =%%NOP%TMPL:P{"prefix_DEFAULT"}%=, except when this would be empty you will do a =%%NOP%TMPL:P{"default_DEFAULT"}%=.%BR%
 If you want an empty definition you can do it like this: =%%NOP%TMPL:DEF{"season_silence"}%%%NOP%NOP%%TMPL:END%= %BR%
 Everything will be run through decodeFormatTokens before output!
@@ -60,6 +61,18 @@ Suppose you want to add a text to a printout with localized dates you can add th
 %%NOP%SWITCHTMPL{"%%NOP%CONTENT_LANGUAGE%" prefix="date" defaultTo="en"}%
 </pre>
 The default parameter (=%%NOP%CONTENT_LANGUAGE%=) could have been omitted in this example.
+
+You can provide arguments to the template like this:
+<pre>
+%%NOP%TMPL:DEF{"DetailsCarForm"}%The car has %%NOP%QUERY{"'%vehicletopic%'/Doors"}% doors.%%NOP%TMPL:END%
+%%NOP%TMPL:DEF{"DetailsPlaneForm"}%The plane has %%NOP%QUERY{"'%vehicletopic%'/Engines"}% engines.%%NOP%TMPL:END%
+%%NOP%TMPL:DEF{"DetailsUnknown"}%The UFO is unknown to science.%%NOP%TMPL:END%
+%%NOP%SWITCHTMPL:{"%%NOP%QUERY{"'MyVehicle'/form.name"}%" prefix="Details" defaultTo="Unknown" tmplargs="vehicletopic=\"MyVehicle\""}%
+</pre>
+In a formatted search this can become a bit messy (double escapes):
+<pre>
+%%NOP%SEARCH{"name~'*Vehicle'" type="query" format="   * $topic: $percentSWITCHTMPL{\"$formname\" prefix=\"Details\" defaultTo=\"Unknown\" tmplargs=\"vehicletopic=\\"$web.$topic\\"\"}$percent$n"}%
+</pre>
 
 ---++ Installation
 %$INSTALL_INSTRUCTIONS%

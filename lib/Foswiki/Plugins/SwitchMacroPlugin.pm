@@ -60,20 +60,29 @@ sub _switchTextHandler {
 sub _switchTemplateHandler {
     my($session, $params, $topic, $web, $topicObject) = @_;
 
-    my $switch = $params->{_DEFAULT};
-    $switch = Foswiki::Func::getPreferencesValue('CONTENT_LANGUAGE') unless defined $switch;
+    my $suffix = $params->{_DEFAULT};
+    $suffix = Foswiki::Func::getPreferencesValue('CONTENT_LANGUAGE') unless defined $suffix;
     my $prefix = $params->{prefix} || '';
+    my $tmplArgs = $params->{tmplargs};
 
-    # return case if it is not empty
-    if ( defined $switch && $switch ne '' ) {
-        my $tmpl = Foswiki::Func::expandTemplate( $prefix.$switch );
-        return $tmpl if defined $tmpl && $tmpl ne '';
+    # try with suffix
+    if ( defined $suffix && $suffix ne '' ) {
+        my $tmpl = _expandTemplate( $prefix.$suffix, $tmplArgs );
+        return $tmpl if $tmpl;
     }
 
-    # return default
-    my $default = $params->{defaultTo} || 'default';
-    my $tmpl = Foswiki::Func::expandTemplate( $prefix.$default );
+    # use default
+    $suffix = $params->{defaultTo} || 'default';
+    my $tmpl = _expandTemplate( $prefix.$suffix, $tmplArgs );
+
     return $tmpl || '';
+}
+
+sub _expandTemplate {
+    my ( $tmplString, $tmplArgs ) = @_;
+
+    $tmplString = "\"$tmplString\" $tmplArgs" if ( $tmplArgs );
+    return Foswiki::Func::expandTemplate( $tmplString );
 }
 
 1;
