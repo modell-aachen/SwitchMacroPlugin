@@ -53,10 +53,6 @@ sub _switchTextHandler {
 
     # return default
     my $default = $params->{defaultTo} || 'default';
-    if ( $default eq 'MAKETEXT' ) {
-        return '' unless $params->{en}; # XXX some kind of warning would be nice?
-        return '%MAKETEXT{"'.Foswiki::Func::decodeFormatTokens($params->{en}).'"}%';
-    }
     return '' unless $params->{$default};
     return Foswiki::Func::decodeFormatTokens($params->{$default});
 }
@@ -76,10 +72,6 @@ sub _switchTemplateHandler {
 
     # return default
     my $default = $params->{defaultTo} || 'default';
-    if ( $default eq 'MAKETEXT' ) {
-        my $tmpl = Foswiki::Func::expandTemplate( $prefix.'en');
-        return "%MAKETEXT{\"$tmpl\"}%" if defined $tmpl && $tmpl ne '';
-    }
     my $tmpl = Foswiki::Func::expandTemplate( $prefix.$default );
     return $tmpl || '';
 }

@@ -81,13 +81,6 @@ sub _beverageDT {
     return Foswiki::Func::expandCommonVariables($macro);
 }
 
-sub _deniedMT {
-    my $switch = shift;
-
-    my $macro = "%SWITCHTEXT{\"$switch\" bin=\"0\" en=\"(access denied)\" default=\"wrong\" defaultTo=\"MAKETEXT\"}%";
-    return Foswiki::Func::expandCommonVariables($macro);
-}
-
 sub _beverageCL {
     my $switch = shift;
 
@@ -102,15 +95,6 @@ sub _beverageCLDT {
     Foswiki::Func::setPreferencesValue('CONTENT_LANGUAGE', $switch);
 
     my $macro = "%SWITCHTEXT{de=\"Bier\" ja=\"sake\" default=\"Beer\" defaultTo=\"de\"}%";
-    return Foswiki::Func::expandCommonVariables($macro);
-}
-
-sub _deniedCLMT {
-    my $switch = shift;
-
-    Foswiki::Func::setPreferencesValue('CONTENT_LANGUAGE', $switch);
-
-    my $macro = "%SWITCHTEXT{bin=\"0\" en=\"(access denied)\" default=\"wrong\" defaultTo=\"MAKETEXT\"}%";
     return Foswiki::Func::expandCommonVariables($macro);
 }
 
@@ -159,30 +143,6 @@ sub test_SwitchTextContentLanguageDefaultTo {
 
     $this->assert_equals("Bier", _beverageDT('xy'));
     $this->assert_equals("Bier", _beverageDT(''));
-}
-
-sub Disabled_test_MAKETEXT {
-    my $this = shift;
-
-    $this->assert_equals("0", _deniedMT('bin'));
-    $this->assert_equals("(access denied)", _deniedMT('xy'));
-    $this->assert_equals("(access denied)", _deniedMT(''));
-    $this->assert_equals("(Zugriff verweigert)", _deniedMT('de'));
-}
-
-sub Disabled_test_MAKETEXTCL {
-    my $this = shift;
-
-    $this->assert_equals("0", _deniedCLMT('bin'));
-    $this->assert_equals("(access denied)", _deniedCLMT('xy'));
-    $this->assert_equals("(access denied)", _deniedCLMT(''));
-    $this->assert_equals("(Zugriff verweigert)", _deniedCLMT('de'));
-}
-
-sub Disabled_test_MAKETEXTEnvironment {
-    my $this = shift;
-
-    $this->assert_equals("(Zugriff verweigert)", Foswiki::Func::expandCommonVariables("%MAKETEXT{\"(access denied)\"}%"));
 }
 
 sub test_SwitchTemplateWithStandard {

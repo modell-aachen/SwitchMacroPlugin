@@ -14,9 +14,9 @@ This macro will return a text depending on a condition.
 
 Parameters:
    * =_DEFAULT= parameter: The value you switch on, when omitted =%<nop>CONTENT_LANGUAGE%= will be used
-   * =defaultTo=: The fallback-value to be used when value was not found, defaults to =default=. When set to =MAKETEXT= and there is a =en= present, it will run =en= through =%%NOP%MAKETEXT%= (no arguments possible).
+   * =defaultTo=: The fallback-value to be used when value was not found, defaults to =default=.
    * anything else: Values you can switch to.
-Everything will be run through decodeFormatTokens before output (and before MAKETEXT)!
+Everything will be run through decodeFormatTokens before output!
 
 ---++++ Examples
 If you have the season stored in =SEASON= you can predict the weather as...
@@ -36,10 +36,10 @@ This macro will print a _template_ depending on a condition.
 Parameters:
    * =_DEFAULT= parameter: The value you switch on, when omitted =%<nop>CONTENT_LANGUAGE%= will be used. This will be the latter part of the _template_ you are going to print.
    * prefix: This will be the first part of the _template_ you are going to print.
-   * =defaultTo=: The fallback-suffix to be used when value was not found, or left empty (ie. when %%NOP%TMPL:P{...}% is ''), defaults to =default=. When set to =MAKETEXT= and there is a =en= present, it will run =en= through =%%NOP%MAKETEXT%= (no arguments possible).
+   * =defaultTo=: The fallback-suffix to be used when value was not found, or left empty (ie. when %%NOP%TMPL:P{...}% is ''), defaults to =default=.
 So in effect you will do a =%%NOP%TMPL:P{"prefix_DEFAULT"}%=, except when this would be empty you will do a =%%NOP%TMPL:P{"default_DEFAULT"}%=.%BR%
 If you want an empty definition you can do it like this: =%%NOP%TMPL:DEF{"season_silence"}%%%NOP%NOP%%TMPL:END%= %BR%
-Everything will be run through decodeFormatTokens before output (and before MAKETEXT)!
+Everything will be run through decodeFormatTokens before output!
 
 ---++++ Examples
 If you have the season stored in =SEASON= you can predict the weather as...
