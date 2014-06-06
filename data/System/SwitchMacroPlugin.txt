@@ -14,7 +14,7 @@ This macro will return a text depending on a condition.
 
 Parameters:
    * =_DEFAULT= parameter: The value you switch on, when omitted =%<nop>CONTENT_LANGUAGE%= will be used
-   * =defaultTo=: The fallback-value to be used when value was not found, defaults to =default=.
+   * =defaultTo=: The fallback-value to be used when value was not found, defaults to =default=. You can also set this to =_DEFAULT= to print the input string.
    * anything else: Values you can switch to.
 Everything will be run through decodeFormatTokens before output!
 
