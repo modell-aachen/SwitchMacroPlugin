@@ -46,6 +46,10 @@ sub _switchTextHandler {
     my $switch = $params->{_DEFAULT};
     $switch = Foswiki::Func::getPreferencesValue('CONTENT_LANGUAGE') unless defined $switch;
 
+    if ( defined $switch && defined $params->{normalize} ) {
+        $switch =~ s#$params->{normalize}##g;
+    }
+
     # return case if it exists
     if ( defined $switch && $switch ne '' && defined $params->{$switch}) {
         return Foswiki::Func::decodeFormatTokens($params->{$switch});
@@ -62,6 +66,11 @@ sub _switchTemplateHandler {
 
     my $suffix = $params->{_DEFAULT};
     $suffix = Foswiki::Func::getPreferencesValue('CONTENT_LANGUAGE') unless defined $suffix;
+
+    if ( defined $suffix && defined $params->{normalize} ) {
+        $suffix =~ s#$params->{normalize}##g;
+    }
+
     my $prefix = $params->{prefix} || '';
     my $tmplArgs = $params->{tmplargs};
 
