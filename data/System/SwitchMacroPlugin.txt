@@ -14,7 +14,8 @@ This macro will return a text depending on a condition.
 
 Parameters:
    * =_DEFAULT= parameter: The value you switch on, when omitted =%<nop>CONTENT_LANGUAGE%= will be used
-   * =defaultTo=: The fallback-value to be used when value was not found, defaults to =default=. When set to =MAKETEXT= and there is a =en= present, it will run =en= through =%%NOP%MAKETEXT%= (no arguments possible).
+   * =normalize=: Everything in the =_DEFAULT= string matching this regex will be removed.
+   * =defaultTo=: The fallback-value to be used when value was not found, defaults to =default=. When set to =MAKETEXT= and there is a =en= present, it will run =en= through =%%NOP%MAKETEXT%= (no arguments possible); use =_DEFAULT= to print the input string.
    * anything else: Values you can switch to.
 Everything will be run through decodeFormatTokens before output (and before MAKETEXT)!
 
@@ -35,6 +36,7 @@ This macro will print a _template_ depending on a condition.
 
 Parameters:
    * =_DEFAULT= parameter: The value you switch on, when omitted =%<nop>CONTENT_LANGUAGE%= will be used. This will be the latter part of the _template_ you are going to print.
+   * =normalize=: Every character in the =_DEFAULT= string matching this regex will be removed.
    * prefix: This will be the first part of the _template_ you are going to print.
    * =defaultTo=: The fallback-suffix to be used when value was not found, or left empty (ie. when %%NOP%TMPL:P{...}% is ''), defaults to =default=. When set to =MAKETEXT= and there is a =en= present, it will run =en= through =%%NOP%MAKETEXT%= (no arguments possible, depricated).
    * =tmplargs=: Will be passed to the template on expansion (eg. =tmplargs="web=\"%%NOP%WEB%\""=)
@@ -51,6 +53,8 @@ If you have the season stored in =SEASON= you can predict the weather as...
 %%NOP%TMPL:DEF{"season_spring"}%refreshing%%NOP%TMPL:END%
 %%NOP%TMPL:DEF{"season_default"}%This season does not exist on earth%%NOP%TMPL:END%
 %<nop>SWITCHTMPL{"%%NOP%SEASON%" prefix="season_"}%
+
+%<nop>SWITCHTMPL{"summertime" prefix="season_" normalize="time$"}%
 </pre>
 This has the advantage, that other seasons like _fall_ can be added by templates.
 
